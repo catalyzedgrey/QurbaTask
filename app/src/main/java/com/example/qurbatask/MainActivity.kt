@@ -42,9 +42,22 @@ fun ThoughtsContent() {
             onValueChange = {/*TODO*/ })
     }
 }
+@Composable
+fun TopBar() {
+    TopAppBar(
+        title = { Text("ICON") },
+        actions = {
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(Icons.Filled.Search, contentDescription = "Localized description")
+            }
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(Icons.Filled.Notifications, contentDescription = "Localized description")
+            }
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(Icons.Filled.ShoppingCart, contentDescription = "Localized description")
             }
         }
-    }
+    )
 }
 
 @Composable

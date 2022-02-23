@@ -3,13 +3,23 @@ package com.example.qurbatask
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.qurbatask.ui.theme.QurbaTaskTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,13 +27,30 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             QurbaTaskTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
+                MyApp()
+            }
+        }
+    }
+}
+
+@Composable
+fun MyApp() {
+    Scaffold(
+        topBar = { TopBar() },
+        bottomBar = { BottomNavigation() }
+    ) {
+        BodyContent()
+    }
+
+}
+
+@Composable
+fun BodyContent() {
+    ThoughtsContent()
+    Column(modifier = Modifier.fillMaxSize()) {
+    }
+}
+
 @Composable
 fun ThoughtsContent() {
     Row(modifier = Modifier.padding(10.dp)) {
@@ -42,6 +69,7 @@ fun ThoughtsContent() {
             onValueChange = {/*TODO*/ })
     }
 }
+
 @Composable
 fun TopBar() {
     TopAppBar(
@@ -86,10 +114,11 @@ fun BottomNavigation() {
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     QurbaTaskTheme {
-        Greeting("Android")
+        MyApp()
     }
 }

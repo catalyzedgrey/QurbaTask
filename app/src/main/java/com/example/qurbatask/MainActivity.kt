@@ -61,8 +61,29 @@ fun TopBar() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun BottomNavigation() {
+    var selectedItem by remember { mutableStateOf(0) }
+
+    val map = mapOf<Int, ImageVector>(
+        0 to Icons.Filled.Home,
+        1 to Icons.Filled.Add,
+        2 to Icons.Filled.Person,
+        3 to Icons.Filled.Person,
+        4 to Icons.Filled.Person
+    )
+    BottomNavigation {
+        for(index  in 0.. 4){
+            BottomNavigationItem(
+                icon = {
+                    val icon: ImageVector = map[index]!!
+                    Icon(icon, contentDescription = null)
+                },
+                label = null,
+                selected = selectedItem == index,
+                onClick = { selectedItem = index }
+            )
+        }
+    }
 }
 
 @Preview(showBackground = true)

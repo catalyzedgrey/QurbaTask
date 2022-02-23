@@ -24,6 +24,24 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Greeting("Android")
                 }
+@Composable
+fun ThoughtsContent() {
+    Row(modifier = Modifier.padding(10.dp)) {
+        Image(
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape)
+                .border(5.dp, Color.Gray, CircleShape),
+            painter = painterResource(id = R.drawable.ic_launcher_background),
+            contentScale = ContentScale.Crop,
+            contentDescription = null
+        )
+        OutlinedTextField(
+            shape = RoundedCornerShape(30.dp),
+            value = "Share your food experience",
+            onValueChange = {/*TODO*/ })
+    }
+}
             }
         }
     }

@@ -4,22 +4,27 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.qurbatask.ui.theme.QurbaTaskTheme
 
 class MainActivity : ComponentActivity() {
@@ -41,7 +46,6 @@ fun MyApp() {
     ) {
         BodyContent()
     }
-
 }
 
 @Composable
@@ -101,19 +105,30 @@ fun BodyContent() {
     }
 }
 
+
+@Composable
+fun RoundedImage(stringResourceId: Int) {
+    return Image(
+        modifier = Modifier
+            .size(48.dp)
+            .clip(CircleShape)
+            .border(5.dp, Color.Gray, CircleShape),
+        painter = painterResource(id = stringResourceId),
+        contentScale = ContentScale.Crop,
+        contentDescription = null
+    )
+}
+
 @Composable
 fun ThoughtsContent() {
-    Row(modifier = Modifier.padding(10.dp)) {
-        Image(
-            modifier = Modifier
-                .size(48.dp)
-                .clip(CircleShape)
-                .border(5.dp, Color.Gray, CircleShape),
-            painter = painterResource(id = R.drawable.ic_launcher_background),
-            contentScale = ContentScale.Crop,
-            contentDescription = null
-        )
+    Row(
+        modifier = Modifier
+            .padding(10.dp)
+            .fillMaxWidth()
+    ) {
+        RoundedImage(R.drawable.ic_launcher_background)
         OutlinedTextField(
+            modifier = Modifier.padding(start = 5.dp, end = 5.dp),
             shape = RoundedCornerShape(30.dp),
             value = "Share your food experience",
             onValueChange = {/*TODO*/ })
@@ -136,6 +151,27 @@ fun TopBar() {
             }
         }
     )
+}
+
+@Composable
+fun RoundedImageWithText() {
+    Row(
+        modifier = Modifier
+            .padding(15.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        RoundedImage(stringResourceId = R.drawable.ic_launcher_background)
+        Column {
+            Text(text = "Rayna Rosser")
+            Text(text = "Verified Buyer")
+        }
+        IconButton(
+            onClick = { /*TODO*/ }) {
+            Icon(imageVector = Icons.Filled.MoreVert, contentDescription = null)
+        }
+    }
 }
 
 @Composable
@@ -209,6 +245,7 @@ fun PhotoGrid(photos: List<Int>) {
         }
     }
 }
+
 @Composable
 fun FeedListItem(feedItem: FeedItem) {
     Column {
@@ -227,6 +264,7 @@ fun FeedListItem(feedItem: FeedItem) {
         ReactionMenu(feedItem)
     }
 }
+
 @Composable
 fun ReactionMenu(feedItem: FeedItem) {
     ConstraintLayout(
@@ -309,10 +347,10 @@ fun ReactionMenu(feedItem: FeedItem) {
     }
 
 }
+
 @Composable
 fun BottomNavigation() {
     var selectedItem by remember { mutableStateOf(0) }
-
     val map = mapOf<Int, ImageVector>(
         0 to Icons.Filled.Home,
         1 to Icons.Filled.Add,
@@ -321,7 +359,7 @@ fun BottomNavigation() {
         4 to Icons.Filled.Person
     )
     BottomNavigation {
-        for(index  in 0.. 4){
+        for (index in 0..4) {
             BottomNavigationItem(
                 icon = {
                     val icon: ImageVector = map[index]!!
@@ -343,3 +381,4 @@ fun DefaultPreview() {
         MyApp()
     }
 }
+

@@ -210,6 +210,88 @@ fun PhotoGrid(photos: List<Int>) {
     }
 }
 @Composable
+fun ReactionMenu(feedItem: FeedItem) {
+    ConstraintLayout(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+
+        val (likeCount, likeIcon, commentCount,
+            commentIcon, shareCount, shareIcon,
+            topDivider, bottomDivider) = createRefs()
+        Divider(
+            modifier = Modifier
+                .padding(start = 15.dp, end = 15.dp)
+                .constrainAs(topDivider) {
+                    top.linkTo(parent.top)
+
+                }, color = Color.Blue, thickness = 1.dp
+        )
+
+        //like count
+        Text(
+            modifier = Modifier.constrainAs(likeCount) {
+                start.linkTo(parent.start, 15.dp)
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+            },
+            text = feedItem.likeCount.toString()
+        )
+        //like icon
+        IconButton(
+            modifier = Modifier.constrainAs(likeIcon) { start.linkTo(likeCount.end, 2.dp) },
+            onClick = { /*TODO*/ }) {
+            Icon(Icons.Filled.ThumbUp, contentDescription = "Localized description")
+        }
+
+        val guideline = createGuidelineFromStart(0.5f)
+        //comment count
+        Text(
+            modifier = Modifier.constrainAs(commentCount) {
+//                start.linkTo(parent.start)
+//                end.linkTo(parent.end, margin = 2.dp)
+                end.linkTo(guideline, 2.dp)
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+            },
+            text = feedItem.commentCount.toString()
+        )
+        //comment icon
+        IconButton(
+            modifier = Modifier.constrainAs(commentIcon) {
+//                start.linkTo(parent.start, margin = 2.dp)
+//                end.linkTo(parent.end)
+                start.linkTo(guideline, 2.dp)
+            },
+            onClick = { /*TODO*/ }) {
+            Icon(Icons.Filled.Send, contentDescription = "Localized description")
+        }
+
+        //share count
+        Text(
+            modifier = Modifier.constrainAs(shareIcon) {
+                end.linkTo(shareCount.start)
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+            },
+            text = feedItem.shareCount.toString()
+        )
+        //share icon
+        IconButton(
+            modifier = Modifier.constrainAs(shareCount) { end.linkTo(parent.end, 15.dp) },
+            onClick = { /*TODO*/ }) {
+            Icon(Icons.Filled.Share, contentDescription = "Localized description")
+        }
+        Divider(
+            modifier = Modifier
+                .padding(start = 15.dp, end = 15.dp)
+                .constrainAs(bottomDivider) {
+                    top.linkTo(parent.bottom)
+                }, color = Color.Blue, thickness = 1.dp
+        )
+    }
+
+}
+@Composable
 fun BottomNavigation() {
     var selectedItem by remember { mutableStateOf(0) }
 

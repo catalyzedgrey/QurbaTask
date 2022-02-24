@@ -1,4 +1,4 @@
-package com.example.qurbatask
+package com.example.qurbatask.data
 
 data class FeedItem(
     val name: String,
@@ -6,9 +6,7 @@ data class FeedItem(
     val date: String,
     val postText: String,
     val imageResourceIdList: ArrayList<Int>,
-    val likeCount: Float,
-    val commentCount: Int,
-    val shareCount: Float,
+    val reaction: Reaction,
     val IsRetweet: Boolean,
     val feedItem: FeedItem?
 )

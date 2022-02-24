@@ -46,8 +46,58 @@ fun MyApp() {
 
 @Composable
 fun BodyContent() {
-    ThoughtsContent()
+    val feedItem0 = FeedItem(
+        name = "Chicken Chester",
+        badge = "Verified Buyer",
+        date = "2 days ago",
+        postText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+        ArrayList<Int>(),
+        32f,
+        597,
+        12.3f,
+        false,
+        null
+    )
+    val feedItem1 = FeedItem(
+        name = "Rayna Rosser",
+        badge = "Verified Buyer",
+        date = "2 days ago",
+        postText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+        ArrayList<Int>(),
+        32f,
+        597,
+        12.3f,
+        false,
+        null
+    )
+    val feedItem2 = FeedItem(
+        name = "Skylarani Arcand",
+        badge = "Verified Buyer",
+        date = "1 sec ago",
+        postText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+        ArrayList<Int>(),
+        32f,
+        597,
+        12.3f,
+        false,
+        null
+    )
+
+    feedItem0.imageResourceIdList.add(R.drawable.food)
+    feedItem0.imageResourceIdList.add(R.drawable.food)
+    feedItem0.imageResourceIdList.add(R.drawable.food)
+    feedItem0.imageResourceIdList.add(R.drawable.food)
+    val feedItems = listOf<FeedItem>(feedItem0, feedItem1, feedItem2, feedItem0)
+
     Column(modifier = Modifier.fillMaxSize()) {
+        ThoughtsContent()
+        LazyColumn {
+            feedItems.forEach { feedItem ->
+                item {
+                    FeedListItem(feedItem = feedItem)
+                }
+            }
+        }
     }
 }
 

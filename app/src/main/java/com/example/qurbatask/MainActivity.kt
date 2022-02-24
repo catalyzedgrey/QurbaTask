@@ -89,6 +89,77 @@ fun TopBar() {
 }
 
 @Composable
+fun PhotoGrid(photos: List<Int>) {
+    if (photos.size != 4) {
+        Row {
+            if (photos.size == 1) {
+                Image(
+                    painter = painterResource(photos[0]),
+                    contentDescription = null,
+                )
+            } else if (photos.size == 2) {
+                Image(
+                    painter = painterResource(photos[0]),
+                    contentDescription = null,
+                )
+                Image(
+                    painter = painterResource(photos[1]),
+                    contentDescription = null,
+                )
+            } else if (photos.size == 3) {
+                Column {
+                    Image(
+                        painter = painterResource(photos[0]),
+                        contentDescription = null,
+                    )
+                }
+                Column {
+                    Image(
+                        painter = painterResource(photos[1]),
+                        contentDescription = null,
+                    )
+                    Image(
+                        painter = painterResource(photos[2]),
+                        contentDescription = null,
+                    )
+                }
+            } else if (photos.size == 4) {
+                Image(
+                    painter = painterResource(photos[0]),
+                    contentDescription = null,
+                )
+                Image(
+                    painter = painterResource(photos[1]),
+                    contentDescription = null,
+                )
+            }
+        }
+    } else if (photos.size == 4) {
+        Column {
+            Row {
+                Image(
+                    painter = painterResource(photos[0]),
+                    contentDescription = null,
+                )
+                Image(
+                    painter = painterResource(photos[1]),
+                    contentDescription = null,
+                )
+            }
+            Row {
+                Image(
+                    painter = painterResource(photos[2]),
+                    contentDescription = null,
+                )
+                Image(
+                    painter = painterResource(photos[3]),
+                    contentDescription = null,
+                )
+            }
+        }
+    }
+}
+@Composable
 fun BottomNavigation() {
     var selectedItem by remember { mutableStateOf(0) }
 

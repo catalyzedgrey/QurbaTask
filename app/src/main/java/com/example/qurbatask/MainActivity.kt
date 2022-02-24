@@ -1,5 +1,7 @@
 package com.example.qurbatask
 
+import android.graphics.drawable.GradientDrawable
+import android.graphics.fonts.FontStyle
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,17 +19,37 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.example.qurbatask.data.BottomNavItem
+import com.example.qurbatask.data.FeedItem
+import com.example.qurbatask.data.Reaction
+import com.example.qurbatask.ui.theme.GradientLeft
+import com.example.qurbatask.ui.theme.GradientRight
 import com.example.qurbatask.ui.theme.QurbaTaskTheme
 
+val gradient = Brush.horizontalGradient(
+    colors = listOf(
+        GradientLeft,
+        GradientRight
+    )
+)
+
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -56,9 +78,11 @@ fun BodyContent() {
         date = "2 days ago",
         postText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
         ArrayList<Int>(),
-        32f,
-        597,
-        12.3f,
+        Reaction(
+            32f,
+            597,
+            12.3f
+        ),
         false,
         null
     )
@@ -68,9 +92,11 @@ fun BodyContent() {
         date = "2 days ago",
         postText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
         ArrayList<Int>(),
-        32f,
-        597,
-        12.3f,
+        Reaction(
+            32f,
+            597,
+            12.3f
+        ),
         false,
         null
     )
@@ -80,9 +106,11 @@ fun BodyContent() {
         date = "1 sec ago",
         postText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
         ArrayList<Int>(),
-        32f,
-        597,
-        12.3f,
+        Reaction(
+            32f,
+            597,
+            12.3f
+        ),
         false,
         null
     )
@@ -95,9 +123,9 @@ fun BodyContent() {
 
     Column(modifier = Modifier.fillMaxSize()) {
         ThoughtsContent()
-        LazyColumn {
+        LazyColumn() {
             feedItems.forEach { feedItem ->
-                item {
+                item() {
                     FeedListItem(feedItem = feedItem)
                 }
             }
@@ -107,12 +135,11 @@ fun BodyContent() {
 
 
 @Composable
-fun RoundedImage(stringResourceId: Int) {
-    return Image(
-        modifier = Modifier
+fun RoundedImage(modifier: Modifier = Modifier, stringResourceId: Int) {
+    Image(
+        modifier = modifier
             .size(48.dp)
-            .clip(CircleShape)
-            .border(5.dp, Color.Gray, CircleShape),
+            .clip(CircleShape),
         painter = painterResource(id = stringResourceId),
         contentScale = ContentScale.Crop,
         contentDescription = null
@@ -123,12 +150,16 @@ fun RoundedImage(stringResourceId: Int) {
 fun ThoughtsContent() {
     Row(
         modifier = Modifier
-            .padding(10.dp)
+            .padding(15.dp)
             .fillMaxWidth()
     ) {
-        RoundedImage(R.drawable.ic_launcher_background)
+        RoundedImage(
+            stringResourceId = R.drawable.ic_launcher_background
+        )
         OutlinedTextField(
-            modifier = Modifier.padding(start = 5.dp, end = 5.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 5.dp, end = 5.dp),
             shape = RoundedCornerShape(30.dp),
             value = "Share your food experience",
             onValueChange = {/*TODO*/ })
@@ -154,30 +185,73 @@ fun TopBar() {
 }
 
 @Composable
-fun RoundedImageWithText() {
-    Row(
-        modifier = Modifier
-            .padding(15.dp)
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        RoundedImage(stringResourceId = R.drawable.ic_launcher_background)
-        Column {
-            Text(text = "Rayna Rosser")
-            Text(text = "Verified Buyer")
+fun RoundedImageWithText(modifier: Modifier = Modifier, feedItem: FeedItem) {
+    ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+
+        val (profilePic, name, badge,
+            datePosted, moreButton) = createRefs()
+
+        //profile pic
+        RoundedImage(
+            modifier = Modifier.constrainAs(profilePic) {
+                start.linkTo(parent.start, 15.dp)
+            },
+            stringResourceId = R.drawable.pfp
+        )
+        //name
+        Text(modifier = Modifier.constrainAs(name) {
+            start.linkTo(profilePic.end, 5.dp)
+        }, text = feedItem.name)
+
+        //badge
+        feedItem.badge?.let {
+            Text(
+                modifier = Modifier.constrainAs(badge) {
+                    start.linkTo(profilePic.end, 5.dp)
+                    top.linkTo(name.bottom, 1.dp)
+                }, text = it,
+                style = MaterialTheme.typography.subtitle1
+            )
         }
+
+        //date poster
+        Text(
+            modifier = Modifier.constrainAs(datePosted) {
+                top.linkTo(name.bottom, 1.dp)
+                if (feedItem.badge == null) {
+                    start.linkTo(profilePic.end, 5.dp)
+                } else {
+                    start.linkTo(badge.end, 5.dp)
+                }
+            }, text = feedItem.date,
+            style = MaterialTheme.typography.subtitle1
+        )
+
+        //more button
+
         IconButton(
+            modifier = Modifier.constrainAs(moreButton) {
+                top.linkTo(profilePic.top)
+                bottom.linkTo(profilePic.bottom)
+                end.linkTo(parent.end, 15.dp)
+            },
             onClick = { /*TODO*/ }) {
-            Icon(imageVector = Icons.Filled.MoreVert, contentDescription = null)
+            Icon(
+                modifier = Modifier.rotate(90f),
+                imageVector = Icons.Filled.MoreVert, contentDescription = null,
+                tint = MaterialTheme.colors.primary.compositeOver(MaterialTheme.colors.secondary)
+            )
+
+
         }
     }
+
 }
 
 @Composable
-fun PhotoGrid(photos: List<Int>) {
+fun PhotoGrid(modifier: Modifier = Modifier, photos: List<Int>) {
     if (photos.size != 4) {
-        Row {
+        Row(modifier) {
             if (photos.size == 1) {
                 Image(
                     painter = painterResource(photos[0]),
@@ -221,23 +295,27 @@ fun PhotoGrid(photos: List<Int>) {
             }
         }
     } else if (photos.size == 4) {
-        Column {
+        Column(modifier) {
             Row {
                 Image(
+                    modifier = Modifier.weight(1f),
                     painter = painterResource(photos[0]),
                     contentDescription = null,
                 )
                 Image(
+                    modifier = Modifier.weight(1f),
                     painter = painterResource(photos[1]),
                     contentDescription = null,
                 )
             }
             Row {
                 Image(
+                    modifier = Modifier.weight(1f),
                     painter = painterResource(photos[2]),
                     contentDescription = null,
                 )
                 Image(
+                    modifier = Modifier.weight(1f),
                     painter = painterResource(photos[3]),
                     contentDescription = null,
                 )
@@ -247,19 +325,26 @@ fun PhotoGrid(photos: List<Int>) {
 }
 
 @Composable
-fun FeedListItem(feedItem: FeedItem) {
-    Column {
-        RoundedImageWithText()
-        Text(text = feedItem.postText)
-        PhotoGrid(feedItem.imageResourceIdList)
-        RoundedImageWithText()
-        OutlinedButton(
+fun FeedListItem(modifier: Modifier = Modifier, feedItem: FeedItem) {
+
+
+    Column(modifier.padding(bottom = 5.dp)) {
+        RoundedImageWithText(feedItem = feedItem)
+        Text(
+            modifier = Modifier.padding(start = 15.dp, end = 15.dp),
+            text = feedItem.postText
+        )
+        PhotoGrid(modifier.padding(top = 5.dp, bottom = 5.dp), feedItem.imageResourceIdList)
+        RoundedImageWithText(feedItem = feedItem)
+        TextButton(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(15.dp),
-            shape = RoundedCornerShape(30.dp),
+                .padding(15.dp)
+                .clip(RoundedCornerShape(30.dp))
+                .background(gradient),
             onClick = { /*TODO*/ }) {
             Text(text = "View")
+
         }
         ReactionMenu(feedItem)
     }
@@ -290,7 +375,7 @@ fun ReactionMenu(feedItem: FeedItem) {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
             },
-            text = feedItem.likeCount.toString()
+            text = feedItem.reaction.likeCount.toString()
         )
         //like icon
         IconButton(
@@ -309,7 +394,7 @@ fun ReactionMenu(feedItem: FeedItem) {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
             },
-            text = feedItem.commentCount.toString()
+            text = feedItem.reaction.commentCount.toString()
         )
         //comment icon
         IconButton(
@@ -329,7 +414,7 @@ fun ReactionMenu(feedItem: FeedItem) {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
             },
-            text = feedItem.shareCount.toString()
+            text = feedItem.reaction.shareCount.toString()
         )
         //share icon
         IconButton(
@@ -341,7 +426,7 @@ fun ReactionMenu(feedItem: FeedItem) {
             modifier = Modifier
                 .padding(start = 15.dp, end = 15.dp)
                 .constrainAs(bottomDivider) {
-                    top.linkTo(parent.bottom)
+                    bottom.linkTo(parent.bottom)
                 }, color = Color.Blue, thickness = 1.dp
         )
     }
@@ -350,20 +435,37 @@ fun ReactionMenu(feedItem: FeedItem) {
 
 @Composable
 fun BottomNavigation() {
+    val myIcons = Icons.Rounded
+
     var selectedItem by remember { mutableStateOf(0) }
-    val map = mapOf<Int, ImageVector>(
-        0 to Icons.Filled.Home,
-        1 to Icons.Filled.Add,
-        2 to Icons.Filled.Person,
-        3 to Icons.Filled.Person,
-        4 to Icons.Filled.Person
+    val navItems = listOf(
+        BottomNavItem(
+            label = "Home",
+            icon = Icons.Filled.Home,
+        ),
+        BottomNavItem(
+            label = "Home",
+            icon = Icons.Filled.PlayArrow
+        ),
+        BottomNavItem(
+            label = "Home",
+            icon = Icons.Filled.Person
+        ),
+        BottomNavItem(
+            label = "Home",
+            icon = Icons.Filled.Person
+        ),
+        BottomNavItem(
+            label = "Home",
+            icon = Icons.Filled.Home
+        )
     )
+
     BottomNavigation {
-        for (index in 0..4) {
+        navItems.forEachIndexed { index, item ->
             BottomNavigationItem(
                 icon = {
-                    val icon: ImageVector = map[index]!!
-                    Icon(icon, contentDescription = null)
+                    Icon(item.icon, contentDescription = null)
                 },
                 label = null,
                 selected = selectedItem == index,

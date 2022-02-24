@@ -210,6 +210,24 @@ fun PhotoGrid(photos: List<Int>) {
     }
 }
 @Composable
+fun FeedListItem(feedItem: FeedItem) {
+    Column {
+        RoundedImageWithText()
+        Text(text = feedItem.postText)
+        PhotoGrid(feedItem.imageResourceIdList)
+        RoundedImageWithText()
+        OutlinedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(15.dp),
+            shape = RoundedCornerShape(30.dp),
+            onClick = { /*TODO*/ }) {
+            Text(text = "View")
+        }
+        ReactionMenu(feedItem)
+    }
+}
+@Composable
 fun ReactionMenu(feedItem: FeedItem) {
     ConstraintLayout(
         modifier = Modifier.fillMaxWidth()

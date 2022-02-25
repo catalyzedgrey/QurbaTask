@@ -348,40 +348,16 @@ fun Comment(modifier: Modifier = Modifier, commentItem: CommentItem) {
 
 @Composable
 fun PhotoGrid(modifier: Modifier = Modifier, photos: List<Int>) {
-    if (photos.size != 4) {
-        Row(modifier) {
-            if (photos.size == 1) {
-                Image(
-                    painter = painterResource(photos[0]),
-                    contentDescription = null,
-                )
-            } else if (photos.size == 2) {
-                Image(
-                    painter = painterResource(photos[0]),
-                    contentDescription = null,
-                )
-                Image(
-                    painter = painterResource(photos[1]),
-                    contentDescription = null,
-                )
-            } else if (photos.size == 3) {
-                Column {
-                    Image(
-                        painter = painterResource(photos[0]),
-                        contentDescription = null,
-                    )
-                }
-                Column {
-                    Image(
-                        painter = painterResource(photos[1]),
-                        contentDescription = null,
-                    )
-                    Image(
-                        painter = painterResource(photos[2]),
-                        contentDescription = null,
-                    )
-                }
-            } else if (photos.size == 4) {
+    when (photos.size) {
+        1 -> {
+            Image(
+                painter = painterResource(photos[0]),
+                contentDescription = null,
+                modifier = modifier.fillMaxWidth(),
+            )
+        }
+        2 -> {
+            Row(modifier.fillMaxWidth()) {
                 Image(
                     painter = painterResource(photos[0]),
                     contentDescription = null,
@@ -392,32 +368,70 @@ fun PhotoGrid(modifier: Modifier = Modifier, photos: List<Int>) {
                 )
             }
         }
-    } else if (photos.size == 4) {
-        Column(modifier) {
-            Row {
+        3 -> {
+            ConstraintLayout(modifier.fillMaxWidth()) {
+
+                val (img1, img2, img3) = createRefs()
+                val guideline = createGuidelineFromStart(0.5f)
                 Image(
-                    modifier = Modifier.weight(1f),
                     painter = painterResource(photos[0]),
                     contentDescription = null,
+                    modifier.constrainAs(img1) {
+                        start.linkTo(parent.start)
+                        end.linkTo(guideline, 2.dp)
+                    }
                 )
+
                 Image(
-                    modifier = Modifier.weight(1f),
                     painter = painterResource(photos[1]),
                     contentDescription = null,
+                    modifier.constrainAs(img2) {
+                        start.linkTo(guideline, 2.dp)
+                        end.linkTo(parent.end)
+                        top.linkTo(img1.top)
+                    }
                 )
-            }
-            Row {
                 Image(
-                    modifier = Modifier.weight(1f),
                     painter = painterResource(photos[2]),
                     contentDescription = null,
-                )
-                Image(
-                    modifier = Modifier.weight(1f),
-                    painter = painterResource(photos[3]),
-                    contentDescription = null,
+                    modifier.constrainAs(img3) {
+                        start.linkTo(guideline, 2.5.dp)
+                        end.linkTo(parent.end)
+                        bottom.linkTo(img1.bottom)
+                    }
                 )
             }
+        }
+        4 -> {
+            Column(modifier) {
+                Row {
+                    Image(
+                        modifier = Modifier.weight(1f),
+                        painter = painterResource(photos[0]),
+                        contentDescription = null,
+                    )
+                    Image(
+                        modifier = Modifier.weight(1f),
+                        painter = painterResource(photos[1]),
+                        contentDescription = null,
+                    )
+                }
+                Row {
+                    Image(
+                        modifier = Modifier.weight(1f),
+                        painter = painterResource(photos[2]),
+                        contentDescription = null,
+                    )
+                    Image(
+                        modifier = Modifier.weight(1f),
+                        painter = painterResource(photos[3]),
+                        contentDescription = null,
+                    )
+                }
+            }
+        }
+    }
+}
 @Composable
 fun ResturantInfo(
     modifier: Modifier = Modifier,

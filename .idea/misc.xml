@@ -4,9 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/grey/Projects/android/QurbaTask/app/src/main/res/drawable/color_gradient.xml" value="0.1935" />
+        <entry key="..\:/grey/Projects/android/QurbaTask/app/src/main/res/drawable/combined.xml" value="0.1935" />
         <entry key="..\:/grey/Projects/android/QurbaTask/app/src/main/res/drawable/gradient.xml" value="0.1935" />
         <entry key="..\:/grey/Projects/android/QurbaTask/app/src/main/res/drawable/ic_baseline_more_horiz_24.xml" value="0.1935" />
         <entry key="..\:/grey/Projects/android/QurbaTask/app/src/main/res/drawable/ic_baseline_restaurant_24.xml" value="0.2335" />
+        <entry key="..\:/grey/Projects/android/QurbaTask/app/src/main/res/drawable/ic_cart.xml" value="0.1935" />
+        <entry key="..\:/grey/Projects/android/QurbaTask/app/src/main/res/drawable/ic_image.xml" value="0.1935" />
+        <entry key="..\:/grey/Projects/android/QurbaTask/app/src/main/res/drawable/ic_logo.xml" value="0.1935" />
+        <entry key="..\:/grey/Projects/android/QurbaTask/app/src/main/res/drawable/ic_test.xml" value="0.1935" />
+        <entry key="..\:/grey/Projects/android/QurbaTask/app/src/main/res/drawable/ic_thumb.xml" value="0.1935" />
         <entry key="..\:/grey/Projects/android/QurbaTask/app/src/main/res/drawable/pfp.xml" value="0.1875" />
         <entry key="..\:/grey/Projects/android/QurbaTask/app/src/main/res/drawable/test.xml" value="0.1935" />
       </map>

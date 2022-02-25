@@ -418,6 +418,34 @@ fun PhotoGrid(modifier: Modifier = Modifier, photos: List<Int>) {
                     contentDescription = null,
                 )
             }
+@Composable
+fun ResturantInfo(
+    modifier: Modifier = Modifier,
+    restaurantInfo: RestaurantInfo
+) {
+    Row(
+        modifier
+            .padding(top = 12.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
+            .fillMaxWidth()
+    ) {
+        RoundedImage(stringResourceId = restaurantInfo.img)
+        Column(Modifier.padding(start = 10.dp)) {
+            Text(
+                restaurantInfo.menuItem,
+                style = TextStyle(
+                    color = TextColor,
+                    fontSize = 14.sp,
+                    fontFamily = montserratFamily,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+            Text(
+                restaurantInfo.name,
+                style = TextStyle(
+                    color = TextColorMuted,
+                    fontSize = 12.sp
+                )
+            )
         }
     }
 }

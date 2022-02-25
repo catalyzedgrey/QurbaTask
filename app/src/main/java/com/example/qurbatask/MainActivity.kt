@@ -71,63 +71,102 @@ fun MyApp() {
 }
 
 @Composable
-fun BodyContent() {
-    val feedItem0 = FeedItem(
+fun BodyContent(modifier: Modifier) {
+    val feedItem = FeedItem(
+        profilePic = R.drawable.chicken_chester,
         name = "Chicken Chester",
-        badge = "Verified Buyer",
+        badge = null,
         date = "2 days ago",
-        postText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+        postText = stringResource(id = R.string.lorem_ipsum_long),
         ArrayList<Int>(),
         Reaction(
             32f,
             597,
             12.3f
         ),
-        false,
-        null
+        comments = listOf(
+            CommentItem(
+                profilePic = R.drawable.pic3,
+                username = "Jaxson Schleifer",
+                commentMessage = "Lorem ipsum",
+                dateCommentPosted = "1h",
+                reactionCount = 2
+            )
+        ),
+        hasRetweet = false,
+        hasMenuItem = true,
+        feedItem = null,
+        restaurantInfo = RestaurantInfo(
+            img = R.drawable.ic_restaurant_tag,
+            menuItem = "Chicken Chester",
+            name = "Cafe & Restaurant"
+        )
     )
     val feedItem1 = FeedItem(
+        profilePic = R.drawable.pic4,
         name = "Rayna Rosser",
         badge = "Verified Buyer",
         date = "2 days ago",
-        postText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-        ArrayList<Int>(),
-        Reaction(
+        postText = stringResource(id = R.string.lorem_ipsum_long),
+        imageResourceIdList = ArrayList<Int>(),
+        reaction = Reaction(
             32f,
             597,
             12.3f
         ),
-        false,
-        null
+        comments = null,
+        hasRetweet = false,
+        feedItem = null,
+        restaurantInfo = RestaurantInfo(
+            img = R.drawable.mc,
+            menuItem = "Chicken MAcdo, Carmel Sandau, Fri...",
+            name = "Mcdonald's"
+        )
     )
     val feedItem2 = FeedItem(
+        profilePic = R.drawable.pic5,
         name = "Skylarani Arcand",
-        badge = "Verified Buyer",
+        badge = null,
         date = "1 sec ago",
-        postText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+        postText = stringResource(id = R.string.lorem_ipsum_long),
         ArrayList<Int>(),
-        Reaction(
-            32f,
-            597,
-            12.3f
+        reaction = null,
+        comments = null,
+        hasRetweet = true,
+        feedItem = FeedItem(
+            profilePic = R.drawable.pic6,
+            name = "Rayna Rhiel Madsen",
+            badge = null,
+            date = "2 days ago",
+            postText = stringResource(id = R.string.lorem_ipsum_long),
+            ArrayList<Int>(),
+            reaction = null,
+            comments = null,
+            hasRetweet = false,
+            feedItem = null,
+            restaurantInfo = RestaurantInfo(
+                img = R.drawable.chicken_chester,
+                menuItem = "buy 2 Chicken Burger Combo and 2...",
+                name = "Chicken Chester"
+            )
         ),
-        false,
-        null
+        restaurantInfo = null
     )
 
-    feedItem0.imageResourceIdList.add(R.drawable.food)
-    feedItem0.imageResourceIdList.add(R.drawable.food)
-    feedItem0.imageResourceIdList.add(R.drawable.food)
-    feedItem0.imageResourceIdList.add(R.drawable.food)
-    val feedItems = listOf<FeedItem>(feedItem0, feedItem1, feedItem2, feedItem0)
+    feedItem.imageResourceIdList.add(R.drawable.food)
+    feedItem1.imageResourceIdList.add(R.drawable.food1)
+    feedItem1.imageResourceIdList.add(R.drawable.food2)
+    feedItem1.imageResourceIdList.add(R.drawable.food3)
+    feedItem2.feedItem?.imageResourceIdList?.add(R.drawable.food)
+    val feedItems = listOf<FeedItem>(feedItem, feedItem1, feedItem2)
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        ThoughtsContent()
-        LazyColumn() {
-            feedItems.forEach { feedItem ->
-                item() {
-                    FeedListItem(feedItem = feedItem)
-                }
+    LazyColumn() {
+        item() {
+            Status()
+        }
+        feedItems.forEach { feedItem ->
+            item() {
+                FeedListItem(modifier, feedItem = feedItem)
             }
         }
     }

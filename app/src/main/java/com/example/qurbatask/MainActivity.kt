@@ -168,17 +168,40 @@ fun ThoughtsContent() {
 
 @Composable
 fun TopBar() {
-    TopAppBar(
-        title = { Text("ICON") },
+    TopAppBar(modifier = Modifier
+        .height(56.dp)
+        .background(Color.White),
+        title = { Text("") },
+        navigationIcon = {
+            Image(
+                modifier = Modifier
+                    .padding(start = 17.dp)
+                    .size(width = 60.dp, height = 16.dp),
+                painter = painterResource(id = R.drawable.ic_logo),
+                contentDescription = null
+            )
+        },
         actions = {
             IconButton(onClick = { /* doSomething() */ }) {
-                Icon(Icons.Filled.Search, contentDescription = "Localized description")
+                Icon(
+                    painterResource(id = R.drawable.ic_search),
+                    contentDescription = "Localized description",
+                    tint = Color.Unspecified
+                )
             }
             IconButton(onClick = { /* doSomething() */ }) {
-                Icon(Icons.Filled.Notifications, contentDescription = "Localized description")
+                Icon(
+                    painterResource(id = R.drawable.ic_notification),
+                    contentDescription = "Localized description",
+                    tint = Color.Unspecified
+                )
             }
             IconButton(onClick = { /* doSomething() */ }) {
-                Icon(Icons.Filled.ShoppingCart, contentDescription = "Localized description")
+                Icon(
+                    painterResource(id = R.drawable.ic_cart),
+                    contentDescription = "Localized description",
+                    tint = Color.Unspecified
+                )
             }
         }
     )

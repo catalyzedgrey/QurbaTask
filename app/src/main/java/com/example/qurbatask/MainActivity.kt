@@ -303,10 +303,46 @@ fun RoundedImageWithText(modifier: Modifier = Modifier, feedItem: FeedItem) {
                 imageVector = Icons.Filled.MoreVert, contentDescription = null,
                 tint = MaterialTheme.colors.primary.compositeOver(MaterialTheme.colors.secondary)
             )
+@Composable
+fun Comment(modifier: Modifier = Modifier, commentItem: CommentItem) {
+
+    ConstraintLayout(Modifier.padding(start = 16.dp, end = 16.dp, top = 12.5.dp)) {
+        val (profilePic, profileName, commentText, commentTextBubble, reaction) = createRefs()
+
+        RoundedImage(
+            Modifier.constrainAs(profilePic) {
+                start.linkTo(parent.start)
+            },
+            stringResourceId = commentItem.profilePic
+        )
+        Surface(
+            modifier
+                .constrainAs(
+                    commentTextBubble
+                ) {
+                    start.linkTo(profilePic.end, 8.dp)
+                },
+            color = TextBubble,
+            shape = RoundedCornerShape(13.dp)
+        ) {
+            Column(Modifier.padding(12.dp)) {
+                Text(text = commentItem.username)
+                Text(
+                    modifier = Modifier.padding(top = 2.dp), text = commentItem.commentMessage
+                )
+            }
 
 
         }
+        ReactionComment(
+            modifier.constrainAs(reaction) {
+                start.linkTo(profilePic.end, 16.dp)
+                top.linkTo(commentTextBubble.bottom, 5.dp)
+            },
+            commentItem = commentItem
+        )
     }
+
 
 }
 

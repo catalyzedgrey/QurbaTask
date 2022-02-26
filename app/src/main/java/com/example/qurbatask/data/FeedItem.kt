@@ -4,6 +4,7 @@ data class FeedItem(
     val profilePic: Int,
     val name: String,
     val badge: String?,
+    val badgeIcon: Int?,
     val date: String,
     val postText: String,
     var imageResourceIdList: ArrayList<Int>,

@@ -1,5 +1,6 @@
 package com.example.qurbatask.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -23,7 +24,7 @@ import com.example.qurbatask.ui.theme.montserratFamily
 fun RoundedImageWithText(modifier: Modifier = Modifier, feedItem: FeedItem) {
     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
 
-        val (profilePic, name, badge,
+        val (profilePic, name, badge, badgeIcon,
             datePosted, moreButton) = createRefs()
 
         //profile pic
@@ -75,6 +76,15 @@ fun RoundedImageWithText(modifier: Modifier = Modifier, feedItem: FeedItem) {
                 fontSize = 12.sp,
             )
         )
+        feedItem.badgeIcon?.let{
+            Image(
+                painterResource(id = feedItem.badgeIcon) ,
+                contentDescription = "badge status",
+                modifier = Modifier.constrainAs(badgeIcon){
+                    start.linkTo(name.end, 3.dp)
+                },)
+        }
+
         IconButton(
             modifier = Modifier.constrainAs(moreButton) {
                 top.linkTo(profilePic.top)
